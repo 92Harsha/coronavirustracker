@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>CoronaVirus Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #db3445;
+      width: 20px;
+      height: 20px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+      float:left;
+    }
+
+    .loader1 {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #ffbf00;
+      width: 20px;
+      height: 20px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+      float:left;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    body {
+	    background-image: url('https://ak1.picdn.net/shutterstock/videos/22974001/thumb/1.jpg');
+	    background-size: contain;
+    }
+    tr, td {
+      text-align: center;
+    }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card text-center">
+        <div class="card-header">
+            <div class="lds-ripple">
+                <div></div>
+            </div>
+            <h1>CoronaVirus Tracker</h1>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Live Count of confirmed cases CoronoVirus</h5>
+            <p class="card-text">From Coronavirus COVID-19 Global Cases Data.</p>
+            <p class="loader" style="margin-left: 40%; margin-right: -40%"></p>
+            <h1><span class="badge badge-danger" th:text="${totalReportedCases}"></span></h1>
+        </div>
+        <div class="card-footer text-muted">
+            <p class="card-text">New Cases Reported since Previous Day</p>
+            <p class="loader1" style="margin-left: 40%; margin-right: -40%"></p>
+            <h1><span class="badge badge-warning" th:text="${totalNewCases}">0</span></h1>
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped" style="background-color: white;">
+        <tr class="table-active">
+            <th>Country</th>
+            <th>State</th>
+            <th>Total Case Reported</th>
+            <th>Changes Since Previous Day</th>
+        </tr>
+        <tr th:each="locationState : ${locationStats}">
+            <td th:class="${locationState.latestTotalCases} > 1000 ? 'bg-danger' : 'table-light'"
+                th:text="${locationState.country}"></td>
+            <td th:class="${locationState.latestTotalCases} > 1000 ? 'bg-danger' : 'table-light'"
+                th:text="${locationState.state}"></td>
+            <td th:class="${locationState.latestTotalCases} > 1000 ? 'bg-danger' : 'table-light'"
+                th:text="${locationState.latestTotalCases}">0</td>
+            <td th:class="${locationState.diffFromPrevDay} > 0 ? 'bg-danger' : 'table-light'"
+                th:text="${locationState.diffFromPrevDay}">0</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+
+</html>
